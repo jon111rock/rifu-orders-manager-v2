@@ -32,18 +32,18 @@ const OrderTable = (props: Props) => {
               />
             </li>
             <li className="mb-2 flex gap-4">
-              <div>
+              <div className="w-1/2">
                 <p className="mb-2">預計出貨時間</p>
                 <input
                   type="date"
-                  className="p-1 focus:outline-none  border border-solid border-lightGray rounded-md"
+                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
                 />
               </div>
-              <div>
+              <div className="w-1/2">
                 <p className="mb-2">預計到貨時間</p>
                 <input
                   type="date"
-                  className="p-1 focus:outline-none border border-solid border-lightGray rounded-md"
+                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
                 />
               </div>
             </li>
