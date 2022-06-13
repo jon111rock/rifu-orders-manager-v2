@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import NavBar from "./components/NavBar";
+import NavToggle from "./components/MenuToggle";
 
-const App = ({}) => {
-  return <div className="text-3xl font-bold underline">App</div>;
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <div className="flex">
+      <NavBar isMenuOpen={isMenuOpen} />
+      <div>home</div>
+      <NavToggle
+        onChange={(state) => {
+          setIsMenuOpen(state);
+        }}
+      />
+    </div>
+  );
 };
 
 export default App;
