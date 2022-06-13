@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavBar from "./components/NavBar";
 import NavToggle from "./components/MenuToggle";
 
-import Orders from "./Pages/Orders";
+import Orders from "./pages/Orders";
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
