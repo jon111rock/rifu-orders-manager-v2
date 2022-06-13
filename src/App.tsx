@@ -17,13 +17,15 @@ const App: React.FC = () => {
     });
   };
 
+  const handleOrderClick = (clickedOrderId: string) => {};
+
   useEffect(() => {
     refreshOrderList();
   }, []);
 
   return (
     <div className="flex">
-      <Orders ordersList={ordersList} />
+      <Orders ordersList={ordersList} onOrderClick={handleOrderClick} />
       <NavBar isMenuOpen={isMenuOpen} />
       <NavToggle
         onChange={(state) => {

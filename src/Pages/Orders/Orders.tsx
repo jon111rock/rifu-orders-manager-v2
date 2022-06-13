@@ -3,9 +3,10 @@ import OrderList from "../../components/OrderList";
 import Order from "../../types/Order";
 type Props = {
   ordersList: Order[] | undefined;
+  onOrderClick: (clickedOrderId: string) => void;
 };
 
-const Orders: React.FC<Props> = ({ ordersList }) => {
+const Orders: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
@@ -25,7 +26,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
           <i className="bx bx-search text-lightGray"></i>
           <input type="text" className="focus:outline-none md:w-72 w-full" />
         </div>
-        <OrderList ordersList={ordersList} />
+        <OrderList ordersList={ordersList} onOrderClick={onOrderClick} />
       </div>
     </div>
   );

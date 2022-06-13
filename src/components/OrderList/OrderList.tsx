@@ -4,11 +4,12 @@ import Order from "../../types/Order";
 
 type Props = {
   ordersList: Order[] | undefined;
+  onOrderClick: (clickedOrderId: string) => void;
 };
 
 const MAX_ORDERS = 8;
 
-const OrderList: React.FC<Props> = ({ ordersList }) => {
+const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   const [list, setList] = useState<Order[]>();
 
   const addEmptyOrders = (list: Order[]) => {
@@ -23,6 +24,10 @@ const OrderList: React.FC<Props> = ({ ordersList }) => {
     }
 
     return newList;
+  };
+
+  const handleOrderClick = (orderId: string) => {
+    onOrderClick(orderId);
   };
 
   useEffect(() => {
@@ -57,7 +62,13 @@ const OrderList: React.FC<Props> = ({ ordersList }) => {
         {list ? (
           list.map((order, key) =>
             order._id ? (
-              <tr key={order._id} className=" cursor-pointer hover:bg-gray">
+              <tr
+                key={order._id}
+                className=" cursor-pointer hover:bg-gray"
+                onClick={() => {
+                  handleOrderClick(order._id);
+                }}
+              >
                 <td className="p-2">{order._id}</td>
                 <td className="p-2">{order.user.name}</td>
                 <td className="p-2">{order.user.address}</td>
