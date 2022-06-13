@@ -4,7 +4,7 @@ import React from "react";
 
 const Orders: React.FC = () => {
   return (
-    <div className="px-7">
+    <div className="w-screen h-screen px-7 bg-gray">
       <div className="text-4xl font-bold my-5">Orders</div>
       <div>
         <ul className="flex gap-5 text-lg mb-5">
