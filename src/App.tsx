@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import NavToggle from "./components/MenuToggle";
 
 import Orders from "./pages/Orders";
+import OrderTable from "./pages/OrderTable";
 import Order from "./types/Order";
 import { getOrders } from "./api/orderApi";
 
@@ -34,6 +35,7 @@ const App: React.FC = () => {
           setIsMenuOpen(state);
         }}
       />
+      <OrderTable />
     </div>
   );
 };
