@@ -9,8 +9,8 @@ const App: React.FC = () => {
 
   return (
     <div className="flex">
-      <NavBar isMenuOpen={isMenuOpen} />
       <Orders />
+      <NavBar isMenuOpen={isMenuOpen} />
       <NavToggle
         onChange={(state) => {
           setIsMenuOpen(state);
