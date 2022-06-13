@@ -9,8 +9,6 @@ const NavToggle: React.FC<Props> = ({ onChange }) => {
 
   const handleClick = () => {
     setIsOpen((currentIsOpen) => !currentIsOpen);
-
-    onChange(isOpen);
   };
 
   useEffect(() => {
