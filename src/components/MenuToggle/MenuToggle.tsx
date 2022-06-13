@@ -4,7 +4,7 @@ type Props = {
   onChange: (state: boolean) => void;
 };
 
-const NavToggle = ({ onChange }: Props) => {
+const NavToggle: React.FC<Props> = ({ onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
