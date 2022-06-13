@@ -17,7 +17,9 @@ const App: React.FC = () => {
     });
   };
 
-  const handleOrderClick = (clickedOrderId: string) => {};
+  const handleOrderClick = (clickedOrderId: string) => {
+    console.log(clickedOrderId);
+  };
 
   useEffect(() => {
     refreshOrderList();

@@ -27,6 +27,7 @@ const Orders: React.FC<Props> = ({ ordersList, onOrderClick }) => {
           <input type="text" className="focus:outline-none md:w-72 w-full" />
         </div>
         <OrderList ordersList={ordersList} onOrderClick={onOrderClick} />
+        {/* CardList */}
       </div>
     </div>
   );

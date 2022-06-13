@@ -45,7 +45,7 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   }, [ordersList]);
 
   return (
-    <table className="table-auto h-full w-full">
+    <table className="table-auto h-full w-full lg:table hidden">
       <thead>
         <tr>
           {tableHeads.map((head) => (
