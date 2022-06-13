@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+import NewItemButton from "../../components/NewItemButton";
+
 import Order from "../../types/Order";
+import Detail from "../../types/ItemDetail";
+import Item from "../../types/Item";
 
 type Props = {
   ordersList: Order[];
@@ -11,11 +15,15 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
   const { orderId } = useParams<string>();
 
   const [defaultOrder, setDefaultOrder] = useState<Order>();
+  const [itemList, setItemList] = useState<Detail[]>();
+
+  const handleAddItemBtnClick = () => {};
 
   useEffect(() => {
     const foundOrder = ordersList.find((order) => order._id === orderId);
     if (!foundOrder) return;
     setDefaultOrder(foundOrder);
+    setItemList(foundOrder.details);
   }, [orderId, ordersList]);
 
   return (
@@ -86,20 +94,23 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
           </ul>
           {/* 商品列表 */}
           <ul className="w-full">
-            <li className="p-1 border-b border-solid border-lightGray mb-2 last:border-none">
-              <p>草莓三明治</p>
-              <div className="flex justify-between ">
-                <span>1</span>
-                <span>$ 50</span>
-              </div>
-            </li>
-            <li className="p-1 border-b border-solid border-lightGray mb-2 last:border-none">
-              <p>草莓三明治</p>
-              <div className="flex justify-between ">
-                <span>1</span>
-                <span>$ 50</span>
-              </div>
-            </li>
+            {itemList ? (
+              itemList.map((item: Detail) => (
+                <li
+                  className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
+                  key={item._id}
+                >
+                  <p>{item.item.name}</p>
+                  <div className="flex justify-between ">
+                    <span>{item.count}</span>
+                    <span>${item.item.price * item.count}</span>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <></>
+            )}
+            <NewItemButton onClick={handleAddItemBtnClick} />
           </ul>
         </div>
         {/* 結算 */}

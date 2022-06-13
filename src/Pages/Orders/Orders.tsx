@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import OrderList from "../../components/OrderList";
 import SearchBar from "../../components/SearchBar";
@@ -25,9 +25,11 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
         <Pagination />
         <div className="flex justify-between mb-4">
           <SearchBar />
-          <button className="p-2  rounded-md bg-blue text-white">
-            新增訂單
-          </button>
+          <Link to="/orders/new">
+            <button className="p-2  rounded-md bg-blue text-white">
+              新增訂單
+            </button>
+          </Link>
         </div>
         <OrderList ordersList={ordersList} onOrderClick={handleOrderClick} />
         {/* CardList */}
