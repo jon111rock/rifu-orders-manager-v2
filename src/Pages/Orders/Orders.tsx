@@ -1,9 +1,11 @@
 import React from "react";
 import OrderList from "../../components/OrderList";
+import Order from "../../types/Order";
+type Props = {
+  ordersList: Order[] | undefined;
+};
 
-// type Props = {};
-
-const Orders: React.FC = () => {
+const Orders: React.FC<Props> = ({ ordersList }) => {
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
@@ -23,7 +25,7 @@ const Orders: React.FC = () => {
           <i className="bx bx-search text-lightGray"></i>
           <input type="text" className="focus:outline-none md:w-72 w-full" />
         </div>
-        <OrderList />
+        <OrderList ordersList={ordersList} />
       </div>
     </div>
   );

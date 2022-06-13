@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import tableHeads from "./tableHeads";
-import { getOrders } from "../../api/orderApi";
 import Order from "../../types/Order";
+
+type Props = {
+  ordersList: Order[] | undefined;
+};
 
 const MAX_ORDERS = 8;
 
-const OrderList: React.FC = () => {
-  const [ordersList, setOrdersList] = useState<Order[]>();
+const OrderList: React.FC<Props> = ({ ordersList }) => {
+  const [list, setList] = useState<Order[]>();
 
   const addEmptyOrders = (list: Order[]) => {
     if (list.length >= 8) return list;
@@ -22,18 +25,15 @@ const OrderList: React.FC = () => {
     return newList;
   };
 
-  //寫在其他組件
   useEffect(() => {
-    getOrders().then((res) => {
-      if (!res) return;
-      setOrdersList(res);
-    });
-  }, []);
+    if (!ordersList) return;
+    setList(ordersList);
+  }, [ordersList]);
 
   useEffect(() => {
     if (!ordersList) return;
 
-    setOrdersList((currentList) => {
+    setList((currentList) => {
       if (!currentList) return [];
       return addEmptyOrders(currentList);
     });
@@ -54,8 +54,8 @@ const OrderList: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {ordersList ? (
-          ordersList.map((order, key) =>
+        {list ? (
+          list.map((order, key) =>
             order._id ? (
               <tr key={order._id} className=" cursor-pointer hover:bg-gray">
                 <td className="p-2">{order._id}</td>
