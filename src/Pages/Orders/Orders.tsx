@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import OrderList from "../../components/OrderList";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
@@ -6,10 +8,16 @@ import Order from "../../types/Order";
 
 type Props = {
   ordersList: Order[] | undefined;
-  onOrderClick: (clickedOrderId: string) => void;
+  // onOrderClick: (clickedOrderId: string) => void;
 };
 
-const Orders: React.FC<Props> = ({ ordersList, onOrderClick }) => {
+const Orders: React.FC<Props> = ({ ordersList }) => {
+  const navigate = useNavigate();
+
+  const handleOrderClick = (orderId: string) => {
+    navigate(`/orders/${orderId}`);
+  };
+
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
@@ -21,7 +29,7 @@ const Orders: React.FC<Props> = ({ ordersList, onOrderClick }) => {
             新增訂單
           </button>
         </div>
-        <OrderList ordersList={ordersList} onOrderClick={onOrderClick} />
+        <OrderList ordersList={ordersList} onOrderClick={handleOrderClick} />
         {/* CardList */}
       </div>
     </div>
