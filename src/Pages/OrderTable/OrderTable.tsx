@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+import { getItems } from "../../api/itemApi";
+
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
 
 import Order from "../../types/Order";
 import Detail from "../../types/ItemDetail";
+import Item from "../../types/Item";
 
 type Props = {
   ordersList: Order[];
@@ -17,18 +20,45 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
 
   const [defaultOrder, setDefaultOrder] = useState<Order>();
-  const [itemList, setItemList] = useState<Detail[]>();
+  const [itemDetailList, setItemDetailList] = useState<Detail[]>();
+  const [itemList, setItemList] = useState<Item[]>();
 
   const handleAddItemBtnClick = () => {
     setSelectItemOpen((current) => !current);
   };
 
+  const handleSelectItemClick = (item?: Item) => {
+    if (!item) {
+      setSelectItemOpen(false);
+      return;
+    }
+    const newItemDetail: Detail = {
+      _id: item._id,
+      item: item,
+      count: 1,
+    };
+
+    setItemDetailList((currentList) => {
+      if (!currentList) return;
+      return [...currentList, newItemDetail];
+    });
+    setSelectItemOpen(false);
+  };
+
+  // set default order
   useEffect(() => {
     const foundOrder = ordersList.find((order) => order._id === orderId);
     if (!foundOrder) return;
     setDefaultOrder(foundOrder);
-    setItemList(foundOrder.details);
+    setItemDetailList(foundOrder.details);
   }, [orderId, ordersList]);
+
+  useEffect(() => {
+    getItems().then((res) => {
+      if (res === null) return;
+      setItemList(res);
+    });
+  }, []);
 
   return (
     <>
@@ -99,8 +129,8 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
             </ul>
             {/* 商品列表 */}
             <ul className="w-full">
-              {itemList ? (
-                itemList.map((item: Detail) => (
+              {itemDetailList ? (
+                itemDetailList.map((item: Detail) => (
                   <li
                     className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
                     key={item._id}
@@ -139,16 +169,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
         </div>
       </div>
       {selectItemOpen ? (
-        <SelectItem
-          onClick={(item) => {
-            if (!item) {
-              setSelectItemOpen(false);
-              return;
-            }
-
-            console.log(item);
-          }}
-        />
+        <SelectItem itemList={itemList} onClick={handleSelectItemClick} />
       ) : (
         <></>
       )}

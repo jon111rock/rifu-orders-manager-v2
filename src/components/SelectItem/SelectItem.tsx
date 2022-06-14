@@ -4,9 +4,10 @@ import Item from "../../types/Item";
 
 type Props = {
   onClick?: (item?: Item) => void;
+  itemList?: Item[];
 };
 
-const SelectItem: React.FC<Props> = ({ onClick }) => {
+const SelectItem: React.FC<Props> = ({ onClick, itemList }) => {
   const main = useRef<HTMLUListElement>(null);
 
   const handleClick = (item?: Item) => {
@@ -28,15 +29,21 @@ const SelectItem: React.FC<Props> = ({ onClick }) => {
         ref={main}
         className="bg-white p-5 rounded-lg md:w-1/2 md:h-1/2 w-3/4 h-3/4"
       >
-        <li className="mb-2 border-b border-lightGray hover:bg-gray cursor-pointer last:border-none">
-          草莓吐司 $10
-        </li>
-        <li className="mb-2 border-b border-lightGray hover:bg-gray cursor-pointer last:border-none">
-          濃厚巧克力 $20
-        </li>
-        <li className="mb-2 border-b border-lightGray hover:bg-gray cursor-pointer last:border-none">
-          抹茶後片 $30
-        </li>
+        {itemList ? (
+          itemList.map((item) => (
+            <li
+              className="mb-2 p-2 border-b border-lightGray hover:bg-gray cursor-pointer last:border-none"
+              key={item._id}
+              onClick={() => {
+                handleClick(item);
+              }}
+            >
+              {item.name} ${item.price}
+            </li>
+          ))
+        ) : (
+          <div>loading...</div>
+        )}
       </ul>
     </div>
   );
