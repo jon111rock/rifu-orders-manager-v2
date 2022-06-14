@@ -20,7 +20,7 @@ const App: React.FC = () => {
   // const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [ordersList, setOrdersList] = useState<Order[]>([]);
+  const [ordersList, setOrdersList] = useState<Order[]>();
 
   const [orderId, setOrderId] = useState<string>("orderId");
 

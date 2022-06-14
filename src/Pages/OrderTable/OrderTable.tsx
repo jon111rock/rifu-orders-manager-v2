@@ -11,7 +11,7 @@ import Detail from "../../types/ItemDetail";
 import Item from "../../types/Item";
 
 type Props = {
-  ordersList: Order[];
+  ordersList?: Order[];
 };
 
 const OrderTable: React.FC<Props> = ({ ordersList }) => {
@@ -47,6 +47,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
 
   // set default order
   useEffect(() => {
+    if (!ordersList) return;
     const foundOrder = ordersList.find((order) => order._id === orderId);
     if (!foundOrder) return;
     setDefaultOrder(foundOrder);
