@@ -20,7 +20,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
 
   const [defaultOrder, setDefaultOrder] = useState<Order>();
-  const [itemDetailList, setItemDetailList] = useState<Detail[]>();
+  const [itemDetailList, setItemDetailList] = useState<Detail[]>([]);
   const [itemList, setItemList] = useState<Item[]>();
 
   const handleAddItemBtnClick = () => {
@@ -38,10 +38,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
       count: 1,
     };
 
-    setItemDetailList((currentList) => {
-      if (!currentList) return;
-      return [...currentList, newItemDetail];
-    });
+    setItemDetailList((currentList) => [...currentList, newItemDetail]);
     setSelectItemOpen(false);
   };
 
