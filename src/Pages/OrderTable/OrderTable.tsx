@@ -53,6 +53,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
     setItemDetailList(foundOrder.details);
   }, [orderId, ordersList]);
 
+  // get items api
   useEffect(() => {
     getItems().then((res) => {
       if (res === null) return;
