@@ -1,40 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-type Props = {};
+type Props = {
+  onChangePage?: (pageName: string) => void;
+};
 
-const Pagination = (props: Props) => {
-  const [isActive, setIsActive] = useState<string>("所有訂單");
+const Pagination: React.FC<Props> = ({ onChangePage }) => {
+  const [selectedPage, setSelectedPage] = useState<string>("所有訂單");
+
+  useEffect(() => {
+    if (!onChangePage) return;
+    onChangePage(selectedPage);
+  }, [selectedPage, onChangePage]);
 
   return (
     <ul className=" flex gap-5 mb-2 text-lightGray ">
       <li
-        className={`pagination ${isActive === "所有訂單" ? "active" : ""}`}
+        className={`pagination ${selectedPage === "所有訂單" ? "active" : ""}`}
         onClick={() => {
-          setIsActive("所有訂單");
+          setSelectedPage("所有訂單");
         }}
       >
         所有訂單 <span className="p-1 bg-gray rounded-lg">80</span>
       </li>
       <li
-        className={`pagination ${isActive === "準備中" ? "active" : ""}`}
+        className={`pagination ${selectedPage === "準備中" ? "active" : ""}`}
         onClick={() => {
-          setIsActive("準備中");
+          setSelectedPage("準備中");
         }}
       >
         準備中 <span className="p-1 bg-gray rounded-lg">80</span>
       </li>
       <li
-        className={`pagination ${isActive === "已出貨" ? "active" : ""}`}
+        className={`pagination ${selectedPage === "已出貨" ? "active" : ""}`}
         onClick={() => {
-          setIsActive("已出貨");
+          setSelectedPage("已出貨");
         }}
       >
         已出貨 <span className="p-1 bg-gray rounded-lg">70</span>
       </li>
       <li
-        className={`pagination ${isActive === "已完成" ? "active" : ""}`}
+        className={`pagination ${selectedPage === "已完成" ? "active" : ""}`}
         onClick={() => {
-          setIsActive("已完成");
+          setSelectedPage("已完成");
         }}
       >
         已完成 <span className="p-1 bg-gray rounded-lg">50</span>

@@ -22,7 +22,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
       <div className="flex flex-col bg-white h-full p-5 rounded-2xl relative">
-        <Pagination />
+        <Pagination onChangePage={(pageName) => {}} />
         <div className="flex justify-between mb-4">
           <SearchBar />
           <Link to="/orders/new">
