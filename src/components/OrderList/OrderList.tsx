@@ -85,7 +85,10 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
           )
         ) : (
           <tr>
-            <td>Loading...</td>
+            <td className="flex items-center p-5">
+              <i className="bx bx-loader-alt bx-spin bx-sm mr-2"></i>
+              <span>Loading</span>
+            </td>
           </tr>
         )}
       </tbody>
