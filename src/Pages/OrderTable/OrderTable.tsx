@@ -289,10 +289,10 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
             {/* 商品列表 */}
             <ul className="w-full">
               {itemDetailList ? (
-                itemDetailList.map((item: Detail) => (
+                itemDetailList.map((item: Detail, key) => (
                   <li
                     className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
-                    key={item._id}
+                    key={`${item._id}${key}`}
                   >
                     <p>{item.item.name}</p>
                     <div className="flex justify-between ">
