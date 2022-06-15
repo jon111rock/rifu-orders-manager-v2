@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { getItems } from "../../api/itemApi";
-import { postOrder, deleteOrder } from "../../api/orderApi";
-import { postUser } from "../../api/userApi";
+import { postOrder, deleteOrder, updateOrder } from "../../api/orderApi";
+import { postUser, updateUser, findUserByName } from "../../api/userApi";
 
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
@@ -27,6 +27,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
   const [itemDetailList, setItemDetailList] = useState<Detail[]>([]);
   const [itemList, setItemList] = useState<Item[]>();
 
+  const [userId, setUserId] = useState<string>();
   const [name, setName] = useState<string>();
   const [address, setAddress] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -63,7 +64,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
     } catch (error) {}
   };
 
-  const handlePostOrder = async () => {
+  const handleSave = async () => {
     if (
       !name ||
       !address ||
@@ -93,22 +94,37 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
       state: orderState,
       details: detailsWithoutId,
     };
-
-    try {
-      const userId = await postUser(user);
-      if (!userId) return;
-      await postOrder(userId, order);
-      await refreshOrderList();
-      navigate(-1);
-    } catch (error) {
-      console.error(error);
+    if (orderId === "new") {
+      try {
+        const res = await findUserByName(user.name);
+        let userId: string | undefined;
+        if (res.message === "success") {
+          userId = res.result._id as string;
+        } else {
+          userId = await postUser(user);
+        }
+        if (!userId) return;
+        await postOrder(userId, order);
+        await refreshOrderList();
+        navigate(-1);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        if (!orderId || !userId) return;
+        await updateUser(userId, user);
+        await updateOrder(orderId, order);
+        await refreshOrderList();
+        navigate(-1);
+      } catch (error) {
+        console.error(error);
+      }
     }
-
-    // const order: Order = {};
-    // postOrder();
   };
 
   const setOrderDafultValue = (order: Order) => {
+    setUserId(order.user._id);
     setName(order.user.name);
     setAddress(order.user.address);
     setPhoneNumber(order.user.phone_number);
@@ -252,18 +268,22 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
               <span>$100</span>
             </div>
             <div>
-              <button
-                className="p-1.5 rounded-md bg-red text-white mr-5"
-                onClick={(e) => {
-                  setDeletePopupOpen(true);
-                }}
-              >
-                刪除
-              </button>
+              {orderId !== "new" ? (
+                <button
+                  className="p-1.5 rounded-md bg-red text-white mr-5"
+                  onClick={(e) => {
+                    setDeletePopupOpen(true);
+                  }}
+                >
+                  刪除
+                </button>
+              ) : (
+                ""
+              )}
               <button
                 className="p-1.5 rounded-md bg-blue text-white mr-5"
                 onClick={() => {
-                  handlePostOrder();
+                  handleSave();
                 }}
               >
                 儲存

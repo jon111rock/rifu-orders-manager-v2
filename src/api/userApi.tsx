@@ -33,13 +33,22 @@ const postUser = async (user: User) => {
   }
 };
 
-const updateUser = async (user: User) => {
+const updateUser = async (userId: string, user: User) => {
   try {
-    const res = await axios.patch(`${baseUrl}/user/${user._id}`, user);
+    const res = await axios.patch(`${baseUrl}/user/${userId}`, user);
     return res.data.message as string;
   } catch (error) {
     console.error(error);
   }
 };
 
-export { getUsers, postUser, updateUser, getOneUser };
+const findUserByName = async (name: string) => {
+  try {
+    const res = await axios.get(`${baseUrl}/user/name/${name}`);
+    return res.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+export { getUsers, postUser, updateUser, getOneUser, findUserByName };

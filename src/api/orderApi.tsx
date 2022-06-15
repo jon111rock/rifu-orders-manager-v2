@@ -1,6 +1,5 @@
 import axios from "axios";
 import Order from "../types/Order";
-import Detail from "../types/ItemDetail";
 
 const baseUrl = "https://rifu-order-manager-api.herokuapp.com/api/order";
 
@@ -29,6 +28,14 @@ const postOrder = async (userId: string, postOrder: postedOrder) => {
   }
 };
 
+const updateOrder = async (orderId: string, updatedOrder: postedOrder) => {
+  try {
+    await axios.patch(`${baseUrl}/${orderId}`, updatedOrder);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const deleteOrder = async (orderId: string) => {
   try {
     await axios.delete(`${baseUrl}/${orderId}`);
@@ -37,4 +44,4 @@ const deleteOrder = async (orderId: string) => {
   }
 };
 
-export { getOrders, postOrder, deleteOrder };
+export { getOrders, postOrder, deleteOrder, updateOrder };
