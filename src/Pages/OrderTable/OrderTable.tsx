@@ -22,6 +22,7 @@ type Props = {
 const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
   const navigate = useNavigate();
   const { orderId } = useParams<string>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState<boolean>(false);
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
   const [itemDetailList, setItemDetailList] = useState<Detail[]>([]);
@@ -57,6 +58,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
 
   const handleDeleteOrder = async () => {
     if (!orderId) return;
+    setIsLoading(true);
     try {
       await deleteOrder(orderId);
       await refreshOrderList();
@@ -75,6 +77,8 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
       !orderState
     )
       return;
+
+    setIsLoading(true);
 
     const user: User = {
       name: name,
@@ -145,6 +149,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
 
   // get items api
   useEffect(() => {
+    setIsLoading(false);
     getItems().then((res) => {
       if (res === null) return;
       setItemList(res);
@@ -163,7 +168,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 <p className="mb-2">姓名</p>
                 <input
                   type="text"
-                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                  className="order-table-input"
                   defaultValue={name}
                   onChange={(e) => {
                     setName(e.target.value);
@@ -174,7 +179,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 <p className="mb-2">地址</p>
                 <input
                   type="text"
-                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                  className="order-table-input"
                   defaultValue={address}
                   onChange={(e) => {
                     setAddress(e.target.value);
@@ -185,7 +190,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 <p className="mb-2">聯絡電話</p>
                 <input
                   type="text"
-                  className="p-1 focus:outline-none  w-full border border-solid border-lightGray rounded-md"
+                  className="order-table-input"
                   defaultValue={phoneNumber}
                   onChange={(e) => {
                     setPhoneNumber(e.target.value);
@@ -197,7 +202,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                   <p className="mb-2">預計出貨時間</p>
                   <input
                     type="date"
-                    className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                    className="order-table-input"
                     defaultValue={date}
                     onChange={(e) => {
                       setDate(e.target.value);
@@ -208,7 +213,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                   <p className="mb-2">預計到貨時間</p>
                   <input
                     type="date"
-                    className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                    className="order-table-input"
                     defaultValue={completedDate}
                     onChange={(e) => {
                       setCompletedDate(e.target.value);
@@ -220,7 +225,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 <p className="mb-2">訂單類型</p>
                 <input
                   type="text"
-                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                  className="order-table-input"
                   defaultValue={orderType}
                   onChange={(e) => {
                     setOrderType(e.target.value);
@@ -231,7 +236,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 <p className="mb-2">訂單類型</p>
                 <input
                   type="text"
-                  className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
+                  className="order-table-input"
                   defaultValue={orderState}
                   onChange={(e) => {
                     setOrderState(e.target.value);
@@ -268,7 +273,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
               <span>$100</span>
             </div>
             <div>
-              {orderId !== "new" ? (
+              {orderId !== "new" && !isLoading ? (
                 <button
                   className="p-1.5 rounded-md bg-red text-white mr-5"
                   onClick={(e) => {
@@ -286,7 +291,11 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                   handleSave();
                 }}
               >
-                儲存
+                {isLoading ? (
+                  <i className="bx bx-loader-alt bx-spin"></i>
+                ) : (
+                  "儲存"
+                )}
               </button>
               <button
                 className="p-1.5 rounded-md bg-white text-blue border border-solid border-blue"
@@ -314,7 +323,10 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
             setDeletePopupOpen(false);
           }}
         >
-          確定要刪除嗎?
+          <div>
+            確定要刪除嗎?
+            {isLoading ? <i className="bx bx-loader-alt bx-spin"></i> : ""}
+          </div>
         </PopupModal>
       ) : (
         ""
