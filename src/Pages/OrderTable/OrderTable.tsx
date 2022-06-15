@@ -66,6 +66,13 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
     } catch (error) {}
   };
 
+  const handleDeleteItem = async (itemId?: string) => {
+    if (!itemId) return;
+
+    const newList = itemDetailList?.filter((item) => item._id !== itemId);
+    setItemDetailList(newList);
+  };
+
   const handleSave = async () => {
     if (!orderType) setOrderType("外送");
     if (!orderState) setOrderState("準備中");
@@ -294,7 +301,15 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                     className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
                     key={`${item._id}${key}`}
                   >
-                    <p>{item.item.name}</p>
+                    <div className="flex justify-between items-center">
+                      <p>{item.item.name}</p>
+                      <i
+                        className="bx bx-x bx-sm text-black-rgba cursor-pointer"
+                        onClick={() => {
+                          handleDeleteItem(item._id);
+                        }}
+                      ></i>
+                    </div>
                     <div className="flex justify-between ">
                       <span>{item.count}</span>
                       <span>${item.item.price * item.count}</span>
