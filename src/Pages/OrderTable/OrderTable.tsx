@@ -6,6 +6,7 @@ import { postOrder } from "../../api/orderApi";
 
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
+import PopupModal from "../../components/PopupModal";
 
 import Order from "../../types/Order";
 import Detail from "../../types/ItemDetail";
@@ -17,6 +18,7 @@ type Props = {
 
 const OrderTable: React.FC<Props> = ({ ordersList }) => {
   const { orderId } = useParams<string>();
+  const [deletePopupOpen, setDeletePopupOpen] = useState<boolean>(false);
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
   const [itemDetailList, setItemDetailList] = useState<Detail[]>([]);
   const [itemList, setItemList] = useState<Item[]>();
@@ -77,7 +79,7 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
 
   return (
     <>
-      <div className="fixed  left-0 top-0  w-screen h-screen bg-black-rgba flex justify-center items-center">
+      <div className="fixed left-0 top-0 w-screen h-screen bg-black-rgba flex justify-center items-center">
         <div className="md:w-[80%] md:h-auto w-full h-[90%] m-4 p-5 bg-white rounded-lg overflow-auto">
           {/* 表單 */}
           <div className="md:grid md:grid-cols-2 md:gap-5 mb-4">
@@ -192,6 +194,14 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
               <span>$100</span>
             </div>
             <div>
+              <button
+                className="p-1.5 rounded-md bg-red text-white mr-5"
+                onClick={(e) => {
+                  setDeletePopupOpen(true);
+                }}
+              >
+                刪除
+              </button>
               <button className="p-1.5 rounded-md bg-blue text-white mr-5">
                 儲存
               </button>
@@ -208,6 +218,18 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
         <SelectItem itemList={itemList} onClick={handleSelectItemClick} />
       ) : (
         <></>
+      )}
+      {deletePopupOpen ? (
+        <PopupModal
+          confirm={() => {
+            console.log("confirm");
+          }}
+          cancel={() => {
+            setDeletePopupOpen(false);
+          }}
+        />
+      ) : (
+        ""
       )}
     </>
   );
