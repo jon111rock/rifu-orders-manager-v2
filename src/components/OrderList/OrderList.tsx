@@ -66,6 +66,7 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                 key={order._id}
                 className=" cursor-pointer hover:bg-gray"
                 onClick={() => {
+                  if (!order._id) return;
                   handleOrderClick(order._id);
                 }}
               >

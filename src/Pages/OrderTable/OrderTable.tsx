@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { getItems } from "../../api/itemApi";
-import { postOrder } from "../../api/orderApi";
+import { postOrder, deleteOrder } from "../../api/orderApi";
+import { postUser } from "../../api/userApi";
 
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
@@ -11,12 +12,15 @@ import PopupModal from "../../components/PopupModal";
 import Order from "../../types/Order";
 import Detail from "../../types/ItemDetail";
 import Item from "../../types/Item";
+import User from "../../types/User";
 
 type Props = {
   ordersList?: Order[];
+  refreshOrderList: () => void;
 };
 
-const OrderTable: React.FC<Props> = ({ ordersList }) => {
+const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
+  const navigate = useNavigate();
   const { orderId } = useParams<string>();
   const [deletePopupOpen, setDeletePopupOpen] = useState<boolean>(false);
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
@@ -48,6 +52,60 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
 
     setItemDetailList((currentList) => [...currentList, newItemDetail]);
     setSelectItemOpen(false);
+  };
+
+  const handleDeleteOrder = async () => {
+    if (!orderId) return;
+    try {
+      await deleteOrder(orderId);
+      await refreshOrderList();
+      navigate(-1);
+    } catch (error) {}
+  };
+
+  const handlePostOrder = async () => {
+    if (
+      !name ||
+      !address ||
+      !phoneNumber ||
+      !date ||
+      !completedDate ||
+      !orderType ||
+      !orderState
+    )
+      return;
+
+    const user: User = {
+      name: name,
+      address: address,
+      phone_number: phoneNumber,
+    };
+
+    const detailsWithoutId = itemDetailList.map((item: Detail) => ({
+      item: item.item.name,
+      count: item.count,
+    }));
+
+    const order = {
+      date: date,
+      completed_date: completedDate,
+      type: orderType,
+      state: orderState,
+      details: detailsWithoutId,
+    };
+
+    try {
+      const userId = await postUser(user);
+      if (!userId) return;
+      await postOrder(userId, order);
+      await refreshOrderList();
+      navigate(-1);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // const order: Order = {};
+    // postOrder();
   };
 
   const setOrderDafultValue = (order: Order) => {
@@ -202,14 +260,22 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
               >
                 刪除
               </button>
-              <button className="p-1.5 rounded-md bg-blue text-white mr-5">
+              <button
+                className="p-1.5 rounded-md bg-blue text-white mr-5"
+                onClick={() => {
+                  handlePostOrder();
+                }}
+              >
                 儲存
               </button>
-              <Link to="orders">
-                <button className="p-1.5 rounded-md bg-white text-blue border border-solid border-blue">
-                  取消
-                </button>
-              </Link>
+              <button
+                className="p-1.5 rounded-md bg-white text-blue border border-solid border-blue"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                取消
+              </button>
             </div>
           </div>
         </div>
@@ -222,12 +288,14 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
       {deletePopupOpen ? (
         <PopupModal
           confirm={() => {
-            console.log("confirm");
+            handleDeleteOrder();
           }}
           cancel={() => {
             setDeletePopupOpen(false);
           }}
-        />
+        >
+          確定要刪除嗎?
+        </PopupModal>
       ) : (
         ""
       )}

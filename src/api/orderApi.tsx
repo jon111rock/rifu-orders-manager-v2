@@ -1,5 +1,6 @@
 import axios from "axios";
 import Order from "../types/Order";
+import Detail from "../types/ItemDetail";
 
 const baseUrl = "https://rifu-order-manager-api.herokuapp.com/api/order";
 
@@ -12,9 +13,17 @@ const getOrders = async () => {
   }
 };
 
-const postOrder = async (order: Order) => {
+type postedOrder = {
+  date: string;
+  completed_date: string;
+  type: string;
+  state: string;
+  details: { item: string; count: number }[];
+};
+
+const postOrder = async (userId: string, postOrder: postedOrder) => {
   try {
-    await axios.post(baseUrl, order);
+    await axios.post(`${baseUrl}/${userId}`, postOrder);
   } catch (error) {
     console.error(error);
   }

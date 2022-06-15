@@ -26,7 +26,8 @@ const getOneUser = async (userId: string) => {
 const postUser = async (user: User) => {
   try {
     const res = await axios.post(`${baseUrl}/user`, user);
-    return res.data.message as string;
+
+    return (res.data.result as User)._id;
   } catch (error) {
     console.error(error);
   }

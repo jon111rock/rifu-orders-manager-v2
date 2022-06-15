@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const refreshOrderList = () => {
     getOrders().then((res) => {
       if (!res) return;
+
       setOrdersList(res);
     });
   };
@@ -69,7 +70,12 @@ const App: React.FC = () => {
           >
             <Route
               path={`:${orderId}`}
-              element={<OrderTable ordersList={ordersList} />}
+              element={
+                <OrderTable
+                  ordersList={ordersList}
+                  refreshOrderList={refreshOrderList}
+                />
+              }
             />
           </Route>
         </Route>
