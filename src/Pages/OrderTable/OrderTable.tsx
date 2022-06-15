@@ -67,6 +67,8 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
   };
 
   const handleSave = async () => {
+    if (!orderType) setOrderType("外送");
+    if (!orderState) setOrderState("準備中");
     if (
       !name ||
       !address ||
@@ -223,25 +225,65 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
               </li>
               <li className="mb-2">
                 <p className="mb-2">訂單類型</p>
-                <input
+                {/* <input
                   type="text"
                   className="order-table-input"
                   defaultValue={orderType}
                   onChange={(e) => {
                     setOrderType(e.target.value);
                   }}
-                />
+                /> */}
+                {orderType ? (
+                  <select
+                    defaultValue={orderType}
+                    className="order-table-input"
+                    onChange={(e) => {
+                      setOrderType(e.target.value);
+                    }}
+                  >
+                    <option value="外送">外送</option>
+                    <option value="自取">自取</option>
+                  </select>
+                ) : (
+                  <select
+                    key={0}
+                    className="order-table-input"
+                    onChange={(e) => {
+                      setOrderType(e.target.value);
+                    }}
+                  >
+                    <option value="外送">外送</option>
+                    <option value="自取">自取</option>
+                  </select>
+                )}
               </li>
               <li className="mb-2">
                 <p className="mb-2">訂單狀態</p>
-                <input
-                  type="text"
-                  className="order-table-input"
-                  defaultValue={orderState}
-                  onChange={(e) => {
-                    setOrderState(e.target.value);
-                  }}
-                />
+                {orderState ? (
+                  <select
+                    defaultValue={orderState}
+                    className="order-table-input"
+                    onChange={(e) => {
+                      setOrderState(e.target.value);
+                    }}
+                  >
+                    <option value="準備中">準備中</option>
+                    <option value="已出貨">已出貨</option>
+                    <option value="已完成">已完成</option>
+                  </select>
+                ) : (
+                  <select
+                    key={0}
+                    className="order-table-input"
+                    onChange={(e) => {
+                      setOrderState(e.target.value);
+                    }}
+                  >
+                    <option value="準備中">準備中</option>
+                    <option value="已出貨">已出貨</option>
+                    <option value="已完成">已完成</option>
+                  </select>
+                )}
               </li>
             </ul>
             {/* 商品列表 */}
