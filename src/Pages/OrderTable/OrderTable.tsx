@@ -16,12 +16,17 @@ type Props = {
 
 const OrderTable: React.FC<Props> = ({ ordersList }) => {
   const { orderId } = useParams<string>();
-
   const [selectItemOpen, setSelectItemOpen] = useState<boolean>(false);
-
-  const [defaultOrder, setDefaultOrder] = useState<Order>();
   const [itemDetailList, setItemDetailList] = useState<Detail[]>([]);
   const [itemList, setItemList] = useState<Item[]>();
+
+  const [name, setName] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [date, setDate] = useState<string>();
+  const [completedDate, setCompletedDate] = useState<string>();
+  const [orderType, setOrderType] = useState<string>();
+  const [orderState, setOrderState] = useState<string>();
 
   const handleAddItemBtnClick = () => {
     setSelectItemOpen((current) => !current);
@@ -42,13 +47,23 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
     setSelectItemOpen(false);
   };
 
+  const setOrderDafultValue = (order: Order) => {
+    setName(order.user.name);
+    setAddress(order.user.address);
+    setPhoneNumber(order.user.phone_number);
+    setDate(order.date);
+    setCompletedDate(order.completed_date);
+    setOrderType(order.type);
+    setOrderState(order.state);
+    setItemDetailList(order.details);
+  };
+
   // set default order
   useEffect(() => {
     if (!ordersList) return;
     const foundOrder = ordersList.find((order) => order._id === orderId);
     if (!foundOrder) return;
-    setDefaultOrder(foundOrder);
-    setItemDetailList(foundOrder.details);
+    setOrderDafultValue(foundOrder);
   }, [orderId, ordersList]);
 
   // get items api
@@ -72,7 +87,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                 <input
                   type="text"
                   className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                  defaultValue={defaultOrder?.user.name}
+                  defaultValue={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                 />
               </li>
               <li className="mb-2">
@@ -80,7 +98,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                 <input
                   type="text"
                   className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                  defaultValue={defaultOrder?.user.address}
+                  defaultValue={address}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
                 />
               </li>
               <li className="mb-2">
@@ -88,7 +109,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                 <input
                   type="text"
                   className="p-1 focus:outline-none  w-full border border-solid border-lightGray rounded-md"
-                  defaultValue={defaultOrder?.user.phone_number}
+                  defaultValue={phoneNumber}
+                  onChange={(e) => {
+                    setPhoneNumber(e.target.value);
+                  }}
                 />
               </li>
               <li className="mb-2 flex gap-4">
@@ -97,7 +121,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                   <input
                     type="date"
                     className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                    defaultValue={defaultOrder?.date}
+                    defaultValue={date}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="w-1/2">
@@ -105,7 +132,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                   <input
                     type="date"
                     className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                    defaultValue={defaultOrder?.completed_date}
+                    defaultValue={completedDate}
+                    onChange={(e) => {
+                      setCompletedDate(e.target.value);
+                    }}
                   />
                 </div>
               </li>
@@ -114,7 +144,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                 <input
                   type="text"
                   className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                  defaultValue={defaultOrder?.type}
+                  defaultValue={orderType}
+                  onChange={(e) => {
+                    setOrderType(e.target.value);
+                  }}
                 />
               </li>
               <li className="mb-2">
@@ -122,7 +155,10 @@ const OrderTable: React.FC<Props> = ({ ordersList }) => {
                 <input
                   type="text"
                   className="p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md"
-                  defaultValue={defaultOrder?.state}
+                  defaultValue={orderState}
+                  onChange={(e) => {
+                    setOrderState(e.target.value);
+                  }}
                 />
               </li>
             </ul>
