@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Detail from "../../types/ItemDetail";
 
 type Props = {
@@ -7,6 +7,15 @@ type Props = {
 };
 
 const ItemDetail: React.FC<Props> = ({ item, onDelete }) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const handleCountChange = (e: any) => {
+    let count = e.target.value;
+    if (!item) return;
+    if (count <= 0) count = 1;
+    item.count = count;
+  };
+
   return (
     <>
       {item ? (
@@ -22,7 +31,36 @@ const ItemDetail: React.FC<Props> = ({ item, onDelete }) => {
             ></i>
           </div>
           <div className="flex justify-between ">
-            <span>{item.count}</span>
+            <div
+              className="flex gap-2 items-center cursor-pointer"
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              {isEdit ? (
+                <input
+                  autoFocus
+                  type="number"
+                  defaultValue={item.count}
+                  className="order-table-input"
+                  onBlur={(e) => {
+                    handleCountChange(e);
+                    setIsEdit(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleCountChange(e);
+                      setIsEdit(false);
+                    }
+                  }}
+                />
+              ) : (
+                <>
+                  <span>{item.count}</span>
+                  <i className="bx bxs-edit text-black-rgba"></i>{" "}
+                </>
+              )}
+            </div>
             <span>${item.item.price * item.count}</span>
           </div>
         </>
