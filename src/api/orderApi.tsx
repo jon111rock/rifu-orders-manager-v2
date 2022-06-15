@@ -20,4 +20,12 @@ const postOrder = async (order: Order) => {
   }
 };
 
-export { getOrders, postOrder };
+const deleteOrder = async (orderId: string) => {
+  try {
+    await axios.delete(`${baseUrl}/${orderId}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getOrders, postOrder, deleteOrder };

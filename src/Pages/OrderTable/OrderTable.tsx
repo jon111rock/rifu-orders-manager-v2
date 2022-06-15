@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import { getItems } from "../../api/itemApi";
+import { postOrder } from "../../api/orderApi";
 
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
