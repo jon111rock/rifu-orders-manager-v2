@@ -1,8 +1,8 @@
 import Item from "./Item";
 
 type Detail = {
-  _id: string;
-  item: Item; ///
+  _id?: string;
+  item: Item;
   count: number;
 };
 

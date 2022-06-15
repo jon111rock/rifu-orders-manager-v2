@@ -45,7 +45,7 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   }, [ordersList]);
 
   return (
-    <table className="table-auto h-full w-full">
+    <table className="table-auto h-full w-full lg:table hidden">
       <thead>
         <tr>
           {tableHeads.map((head) => (
@@ -66,6 +66,7 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                 key={order._id}
                 className=" cursor-pointer hover:bg-gray"
                 onClick={() => {
+                  if (!order._id) return;
                   handleOrderClick(order._id);
                 }}
               >
@@ -84,7 +85,10 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
           )
         ) : (
           <tr>
-            <td>Loading...</td>
+            <td className="flex items-center p-5">
+              <i className="bx bx-loader-alt bx-spin bx-sm mr-2"></i>
+              <span>Loading</span>
+            </td>
           </tr>
         )}
       </tbody>
