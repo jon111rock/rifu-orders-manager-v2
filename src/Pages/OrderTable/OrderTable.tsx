@@ -8,6 +8,7 @@ import { postUser, updateUser, findUserByName } from "../../api/userApi";
 import NewItemButton from "../../components/NewItemButton";
 import SelectItem from "../../components/SelectItem";
 import PopupModal from "../../components/PopupModal";
+import ItemDetail from "../../components/ItemDetail";
 
 import Order from "../../types/Order";
 import Detail from "../../types/ItemDetail";
@@ -301,19 +302,12 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                     className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
                     key={`${item._id}${key}`}
                   >
-                    <div className="flex justify-between items-center">
-                      <p>{item.item.name}</p>
-                      <i
-                        className="bx bx-x bx-sm text-black-rgba cursor-pointer"
-                        onClick={() => {
-                          handleDeleteItem(item._id);
-                        }}
-                      ></i>
-                    </div>
-                    <div className="flex justify-between ">
-                      <span>{item.count}</span>
-                      <span>${item.item.price * item.count}</span>
-                    </div>
+                    <ItemDetail
+                      item={item}
+                      onDelete={(itemId) => {
+                        handleDeleteItem(itemId);
+                      }}
+                    />
                   </li>
                 ))
               ) : (
