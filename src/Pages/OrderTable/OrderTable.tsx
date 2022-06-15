@@ -233,7 +233,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
                 />
               </li>
               <li className="mb-2">
-                <p className="mb-2">訂單類型</p>
+                <p className="mb-2">訂單狀態</p>
                 <input
                   type="text"
                   className="order-table-input"
