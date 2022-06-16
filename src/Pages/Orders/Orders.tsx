@@ -14,6 +14,7 @@ type Props = {
 const Orders: React.FC<Props> = ({ ordersList }) => {
   const navigate = useNavigate();
   const [displayList, setDisplayList] = useState<Order[]>();
+  const [pagedList, setPagedList] = useState<Order[]>();
 
   const handleOrderClick = (orderId: string) => {
     navigate(`/orders/${orderId}`);
@@ -21,7 +22,6 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
 
   const handleChangePagination = useCallback(
     (pageName: string) => {
-      //todo: change display orders by pagination
       if (!ordersList) return;
       const filteredList = ordersList.reduce((list: Order[], order) => {
         if (pageName === "所有訂單") {
@@ -32,8 +32,31 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
         return list;
       }, []);
       setDisplayList(filteredList);
+      setPagedList(filteredList);
     },
     [ordersList]
+  );
+
+  const handleSearchInput = useCallback(
+    (searchInput: string) => {
+      if (!pagedList) return;
+
+      const filteredList = pagedList.reduce((list: Order[], order) => {
+        if (searchInput === "") {
+          list.push(order);
+        } else if (order.user.name.includes(searchInput)) {
+          list.push(order);
+        } else if (order.user.address.includes(searchInput)) {
+          list.push(order);
+        } else if (order.user.phone_number.includes(searchInput)) {
+          list.push(order);
+        }
+        return list;
+      }, []);
+
+      setDisplayList(filteredList);
+    },
+    [pagedList]
   );
 
   // init displayList
@@ -41,6 +64,10 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
     if (!ordersList) return;
     setDisplayList(ordersList);
   }, [ordersList]);
+
+  // useEffect(() => {
+
+  // }, [pagedList])
 
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
@@ -51,7 +78,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
           onChangePage={handleChangePagination}
         />
         <div className="flex justify-between mb-4">
-          <SearchBar />
+          <SearchBar onSearchInput={handleSearchInput} pagedList={pagedList} />
           <Link to="/orders/new">
             <button className="p-2  rounded-md bg-blue text-white">
               新增訂單
