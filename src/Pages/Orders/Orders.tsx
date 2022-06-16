@@ -44,6 +44,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
       <div className=" text-4xl font-bold mb-5">Orders</div>
       <div className="flex flex-col bg-white h-full p-5 rounded-2xl relative">
         <Pagination
+          ordersList={ordersList}
           onChangePage={(pageName) => {
             handleChangePagination(pageName);
           }}
