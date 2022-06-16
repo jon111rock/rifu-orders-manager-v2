@@ -40,7 +40,7 @@ const Pagination: React.FC<Props> = ({ onChangePage, ordersList }) => {
           setSelectedPage("所有訂單");
         }}
       >
-        所有訂單{" "}
+        所有訂單
         <span className="p-1 bg-gray rounded-lg">
           {computeOrderCount("所有訂單", ordersList)}
         </span>
