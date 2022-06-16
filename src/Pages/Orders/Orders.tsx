@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import OrderList from "../../components/OrderList";
@@ -13,16 +13,43 @@ type Props = {
 
 const Orders: React.FC<Props> = ({ ordersList }) => {
   const navigate = useNavigate();
+  const [displayList, setDisplayList] = useState<Order[]>();
 
   const handleOrderClick = (orderId: string) => {
     navigate(`/orders/${orderId}`);
   };
 
+  const handleChangePagination = useCallback(
+    (pageName: string) => {
+      //todo: change display orders by pagination
+      if (!ordersList) return;
+      const filteredList = ordersList.reduce((list: Order[], order) => {
+        if (pageName === "所有訂單") {
+          list.push(order);
+        } else if (order.state === pageName) {
+          list.push(order);
+        }
+        return list;
+      }, []);
+      setDisplayList(filteredList);
+    },
+    [ordersList]
+  );
+
+  // init displayList
+  useEffect(() => {
+    if (!ordersList) return;
+    setDisplayList(ordersList);
+  }, [ordersList]);
+
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
       <div className="flex flex-col bg-white h-full p-5 rounded-2xl relative">
-        <Pagination />
+        <Pagination
+          ordersList={ordersList}
+          onChangePage={handleChangePagination}
+        />
         <div className="flex justify-between mb-4">
           <SearchBar />
           <Link to="/orders/new">
@@ -31,7 +58,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
             </button>
           </Link>
         </div>
-        <OrderList ordersList={ordersList} onOrderClick={handleOrderClick} />
+        <OrderList ordersList={displayList} onOrderClick={handleOrderClick} />
         {/* CardList */}
       </div>
     </div>

@@ -6,4 +6,23 @@
   .order-table-input {
     @apply p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md;
   }
+
+  .active {
+    @apply text-blueGrean bg-lightGreen rounded-md font-bold;
+  }
+
+  .pagination {
+    @apply p-1 cursor-pointer transition-all duration-300 hover:text-blueGrean;
+  }
+
+  .state-shipped {
+    @apply p-3 rounded-lg bg-lightBlue text-blue;
+  }
+  .state-completed {
+    @apply p-3 rounded-lg bg-lightGreen text-green;
+  }
+
+  .state-ready {
+    @apply p-3 rounded-lg bg-lightOrange text-orange;
+  }
 }

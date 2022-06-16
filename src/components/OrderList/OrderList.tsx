@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import tableHeads from "./tableHeads";
 import Order from "../../types/Order";
+import { changeStateStyle } from "../../helpers/stateStyleHelper";
 
 type Props = {
   ordersList: Order[] | undefined;
@@ -75,7 +76,11 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                 <td className="p-2">{order.user.address}</td>
                 <td className="p-2">{order.user.phone_number}</td>
                 <td className="p-2">{order.date}</td>
-                <td className="p-2">{order.state}</td>
+                <td className="p-2">
+                  <span className={changeStateStyle(order.state)}>
+                    {order.state}
+                  </span>
+                </td>
               </tr>
             ) : (
               <tr key={key}>
