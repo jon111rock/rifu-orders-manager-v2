@@ -72,9 +72,18 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                 }}
               >
                 <td className="p-2">{order._id}</td>
-                <td className="p-2">{order.user.name}</td>
-                <td className="p-2">{order.user.address}</td>
-                <td className="p-2">{order.user.phone_number}</td>
+                <td
+                  className="p-2"
+                  dangerouslySetInnerHTML={{ __html: order.user.name }}
+                ></td>
+                <td
+                  className="p-2"
+                  dangerouslySetInnerHTML={{ __html: order.user.address }}
+                ></td>{" "}
+                <td
+                  className="p-2"
+                  dangerouslySetInnerHTML={{ __html: order.user.phone_number }}
+                ></td>{" "}
                 <td className="p-2">{order.date}</td>
                 <td className="p-2">
                   <span className={changeStateStyle(order.state)}>
