@@ -79,11 +79,11 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                 <td
                   className="p-2"
                   dangerouslySetInnerHTML={{ __html: order.user.address }}
-                ></td>{" "}
+                ></td>
                 <td
                   className="p-2"
                   dangerouslySetInnerHTML={{ __html: order.user.phone_number }}
-                ></td>{" "}
+                ></td>
                 <td className="p-2">{order.date}</td>
                 <td className="p-2">
                   <span className={changeStateStyle(order.state)}>
