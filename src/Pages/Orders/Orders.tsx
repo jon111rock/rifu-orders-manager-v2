@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import OrderList from "../../components/OrderList";
@@ -19,19 +19,22 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
     navigate(`/orders/${orderId}`);
   };
 
-  const handleChangePagination = (pageName: string) => {
-    //todo: change display orders by pagination
-    if (!ordersList) return;
-    const filteredList = ordersList.reduce((list: Order[], order) => {
-      if (pageName === "所有訂單") {
-        list.push(order);
-      } else if (order.state === pageName) {
-        list.push(order);
-      }
-      return list;
-    }, []);
-    setDisplayList(filteredList);
-  };
+  const handleChangePagination = useCallback(
+    (pageName: string) => {
+      //todo: change display orders by pagination
+      if (!ordersList) return;
+      const filteredList = ordersList.reduce((list: Order[], order) => {
+        if (pageName === "所有訂單") {
+          list.push(order);
+        } else if (order.state === pageName) {
+          list.push(order);
+        }
+        return list;
+      }, []);
+      setDisplayList(filteredList);
+    },
+    [ordersList]
+  );
 
   // init displayList
   useEffect(() => {
@@ -45,9 +48,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
       <div className="flex flex-col bg-white h-full p-5 rounded-2xl relative">
         <Pagination
           ordersList={ordersList}
-          onChangePage={(pageName) => {
-            handleChangePagination(pageName);
-          }}
+          onChangePage={handleChangePagination}
         />
         <div className="flex justify-between mb-4">
           <SearchBar />

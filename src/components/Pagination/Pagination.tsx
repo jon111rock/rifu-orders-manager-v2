@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Order from "../../types/Order";
 
 type Props = {
-  onChangePage?: (pageName: string) => void;
+  onChangePage: (pageName: string) => void;
   ordersList?: Order[];
 };
 
@@ -28,8 +28,9 @@ const Pagination: React.FC<Props> = ({ onChangePage, ordersList }) => {
 
   useEffect(() => {
     if (!onChangePage) return;
+
     onChangePage(selectedPage);
-  }, [selectedPage, onChangePage]);
+  }, [onChangePage, selectedPage]);
 
   return (
     <ul className=" flex gap-5 mb-2 text-lightGray ">
