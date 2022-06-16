@@ -25,7 +25,6 @@ const SearchBar: React.FC<Props> = ({ onSearchInput, pagedList }) => {
         className="focus:outline-none md:w-72 w-full"
         value={searchInput}
         onChange={(e) => {
-          // onSearchInput(e.target.value);
           setSearchInput(e.target.value);
         }}
       />
