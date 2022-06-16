@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { highlight } from "../../helpers/textHelper";
 
 import OrderList from "../../components/OrderList";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
+
 import Order from "../../types/Order";
 
 type Props = {
@@ -42,14 +44,27 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
       if (!pagedList) return;
 
       const filteredList = pagedList.reduce((list: Order[], order) => {
+        const tempOrder = JSON.parse(JSON.stringify(order)) as Order;
         if (searchInput === "") {
-          list.push(order);
+          list.push(tempOrder);
         } else if (order.user.name.includes(searchInput)) {
-          list.push(order);
+          tempOrder.user.name = highlight(tempOrder.user.name, searchInput);
+
+          list.push(tempOrder);
         } else if (order.user.address.includes(searchInput)) {
-          list.push(order);
+          tempOrder.user.address = highlight(
+            tempOrder.user.address,
+            searchInput
+          );
+
+          list.push(tempOrder);
         } else if (order.user.phone_number.includes(searchInput)) {
-          list.push(order);
+          tempOrder.user.phone_number = highlight(
+            tempOrder.user.phone_number,
+            searchInput
+          );
+
+          list.push(tempOrder);
         }
         return list;
       }, []);
@@ -64,10 +79,6 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
     if (!ordersList) return;
     setDisplayList(ordersList);
   }, [ordersList]);
-
-  // useEffect(() => {
-
-  // }, [pagedList])
 
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
