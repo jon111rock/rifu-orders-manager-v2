@@ -53,7 +53,7 @@ const App: React.FC = () => {
         <Route
           path=""
           element={
-            <div className="flex">
+            <div className="flex relative">
               <NavToggle
                 onChange={(state) => {
                   setIsMenuOpen(state);

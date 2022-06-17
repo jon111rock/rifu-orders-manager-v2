@@ -19,12 +19,12 @@ const NavToggle: React.FC<Props> = ({ onChange }) => {
     <>
       {isOpen ? (
         <i
-          className="bx bx-x bx-lg fixed right-3 top-3 cursor-pointer"
+          className="bx bx-x bx-lg absolute right-3 top-3 cursor-pointer"
           onClick={handleClick}
         ></i>
       ) : (
         <i
-          className="bx bx-menu bx-lg fixed right-3 top-3 cursor-pointer"
+          className="bx bx-menu bx-lg absolute right-3 top-3 cursor-pointer"
           onClick={handleClick}
         ></i>
       )}
