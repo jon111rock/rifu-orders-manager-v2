@@ -22,7 +22,7 @@ const SearchBar: React.FC<Props> = ({ onSearchInput, pagedList }) => {
       <i className="bx bx-search text-lightGray"></i>
       <input
         type="text"
-        className="focus:outline-none md:w-72 w-full"
+        className="focus:outline-none md:w-72 w-full md:bg-white bg-gray md:text-lg text-2xl"
         value={searchInput}
         onChange={(e) => {
           setSearchInput(e.target.value);

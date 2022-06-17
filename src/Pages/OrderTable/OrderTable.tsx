@@ -18,9 +18,14 @@ import User from "../../types/User";
 type Props = {
   ordersList?: Order[];
   refreshOrderList: () => void;
+  setIsOrderTableOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
+const OrderTable: React.FC<Props> = ({
+  ordersList,
+  refreshOrderList,
+  setIsOrderTableOpen,
+}) => {
   const navigate = useNavigate();
   const { orderId } = useParams<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -137,6 +142,11 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
     }
   };
 
+  const handleCancel = () => {
+    if (setIsOrderTableOpen) setIsOrderTableOpen(false);
+    navigate(-1);
+  };
+
   const setOrderDafultValue = (order: Order) => {
     setUserId(order.user._id);
     setName(order.user.name);
@@ -159,17 +169,19 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
 
   // get items api
   useEffect(() => {
+    if (setIsOrderTableOpen) setIsOrderTableOpen(true);
+
     setIsLoading(false);
     getItems().then((res) => {
       if (res === null) return;
       setItemList(res);
     });
-  }, []);
+  }, [setIsOrderTableOpen]);
 
   return (
     <>
       <div className="fixed left-0 top-0 w-screen h-screen bg-black-rgba flex justify-center items-center">
-        <div className="md:w-[80%] md:h-auto w-full h-[90%] m-4 p-5 bg-white rounded-lg overflow-auto">
+        <div className="md:w-[80%] md:h-auto w-full h-[90%] m-4 p-5 bg-white rounded-lg overflow-auto md:pb-0 pb-20">
           {/* 表單 */}
           <div className="md:grid md:grid-cols-2 md:gap-5 mb-4">
             {/* 使用者資訊 */}
@@ -351,7 +363,7 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
               <button
                 className="p-1.5 rounded-md bg-white text-blue border border-solid border-blue"
                 onClick={() => {
-                  navigate(-1);
+                  handleCancel();
                 }}
               >
                 取消
@@ -360,11 +372,6 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
           </div>
         </div>
       </div>
-      {selectItemOpen ? (
-        <SelectItem itemList={itemList} onClick={handleSelectItemClick} />
-      ) : (
-        <></>
-      )}
       {deletePopupOpen ? (
         <PopupModal
           confirm={() => {
@@ -381,6 +388,11 @@ const OrderTable: React.FC<Props> = ({ ordersList, refreshOrderList }) => {
         </PopupModal>
       ) : (
         ""
+      )}
+      {selectItemOpen ? (
+        <SelectItem itemList={itemList} onClick={handleSelectItemClick} />
+      ) : (
+        <></>
       )}
     </>
   );
