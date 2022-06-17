@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+  html {
+    @apply lg:text-[100%] md:text-[85%%] text-[80%];
+  }
+
   .order-table-input {
     @apply p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md;
   }
