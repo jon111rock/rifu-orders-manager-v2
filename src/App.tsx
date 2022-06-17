@@ -54,13 +54,13 @@ const App: React.FC = () => {
           path=""
           element={
             <div className="flex">
-              <NavBar isMenuOpen={isMenuOpen} />
               <NavToggle
                 onChange={(state) => {
                   setIsMenuOpen(state);
                 }}
               />
               <Outlet />
+              <NavBar isMenuOpen={isMenuOpen} />
             </div>
           }
         >
