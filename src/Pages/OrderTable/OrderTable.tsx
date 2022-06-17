@@ -181,7 +181,7 @@ const OrderTable: React.FC<Props> = ({
   return (
     <>
       <div className="fixed left-0 top-0 w-screen h-screen bg-black-rgba flex justify-center items-center">
-        <div className="md:w-[80%] md:h-auto w-full h-[90%] m-4 p-5 bg-white rounded-lg overflow-auto pb-20">
+        <div className="md:w-[80%] md:h-auto w-full h-[90%] m-4 p-5 bg-white rounded-lg overflow-auto md:pb-0 pb-20">
           {/* 表單 */}
           <div className="md:grid md:grid-cols-2 md:gap-5 mb-4">
             {/* 使用者資訊 */}
