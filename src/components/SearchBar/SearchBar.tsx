@@ -4,9 +4,14 @@ import Order from "../../types/Order";
 type Props = {
   onSearchInput: (searchInput: string) => void;
   pagedList?: Order[];
+  changeListPage?: number;
 };
 
-const SearchBar: React.FC<Props> = ({ onSearchInput, pagedList }) => {
+const SearchBar: React.FC<Props> = ({
+  onSearchInput,
+  pagedList,
+  changeListPage,
+}) => {
   const [searchInput, setSearchInput] = useState<string>("");
 
   useEffect(() => {
@@ -15,7 +20,7 @@ const SearchBar: React.FC<Props> = ({ onSearchInput, pagedList }) => {
 
   useEffect(() => {
     setSearchInput("");
-  }, [pagedList]);
+  }, [pagedList, changeListPage]);
 
   return (
     <div className="flex gap-1 items-center text-lg relative md:w-fit w-full border border-solid border-lightGray p-1 rounded-xl z-0">
