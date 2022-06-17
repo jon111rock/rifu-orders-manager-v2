@@ -12,7 +12,7 @@ const OrderCardList: React.FC<Props> = ({ ordersList }) => {
   const navigate = useNavigate();
 
   return (
-    <ul className="flex flex-col gap-5">
+    <ul className="flex flex-col gap-5 md:hidden">
       {ordersList
         ? ordersList.map((order) => (
             <li key={order._id}>

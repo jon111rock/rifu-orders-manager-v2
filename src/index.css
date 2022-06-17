@@ -16,7 +16,7 @@
   }
 
   .pagination {
-    @apply p-1 cursor-pointer transition-all duration-300 hover:text-blueGrean;
+    @apply md:p-1 p-0 cursor-pointer transition-all duration-300 hover:text-blueGrean;
   }
 
   .state-shipped {

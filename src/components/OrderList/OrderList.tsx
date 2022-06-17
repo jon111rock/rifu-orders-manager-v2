@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import tableHeads from "./tableHeads";
 import Order from "../../types/Order";
 import { changeStateStyle } from "../../helpers/stateStyleHelper";
+import { MAX_ORDER_PER_PAGE } from "../../constants";
 
 type Props = {
   ordersList: Order[] | undefined;
   onOrderClick: (clickedOrderId: string) => void;
 };
-
-const MAX_ORDERS = 8;
 
 const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   const [list, setList] = useState<Order[]>();
@@ -16,7 +15,7 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   const addEmptyOrders = (list: Order[]) => {
     if (list.length >= 8) return list;
     const newList: Order[] = [];
-    for (let i = 0; i < MAX_ORDERS; i++) {
+    for (let i = 0; i < MAX_ORDER_PER_PAGE; i++) {
       if (list[i]) {
         newList.push(list[i]);
       } else {
