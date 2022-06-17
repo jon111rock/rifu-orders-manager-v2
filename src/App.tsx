@@ -21,6 +21,7 @@ const App: React.FC = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ordersList, setOrdersList] = useState<Order[]>();
+  const [isOrderTableOpen, setisOrderTableOpen] = useState<boolean>(false);
 
   const [orderId, setOrderId] = useState<string>("orderId");
 
@@ -38,6 +39,14 @@ const App: React.FC = () => {
     refreshOrderList();
   }, []);
 
+  useEffect(() => {
+    if (isOrderTableOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOrderTableOpen]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -45,14 +54,13 @@ const App: React.FC = () => {
           path=""
           element={
             <div className="flex">
-              <Outlet />
               <NavBar isMenuOpen={isMenuOpen} />
               <NavToggle
                 onChange={(state) => {
                   setIsMenuOpen(state);
                 }}
               />
-              {/* <OrderTable /> */}
+              <Outlet />
             </div>
           }
         >
@@ -74,6 +82,7 @@ const App: React.FC = () => {
                 <OrderTable
                   ordersList={ordersList}
                   refreshOrderList={refreshOrderList}
+                  setIsOrderTableOpen={setisOrderTableOpen}
                 />
               }
             />
