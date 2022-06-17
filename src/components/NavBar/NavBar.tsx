@@ -19,7 +19,10 @@ const NavBar: React.FC<Props> = ({ isMenuOpen }) => {
         </div>
         <ul className="w-fit m-auto text-sm">
           {menuItems.map((item) => (
-            <li className="mb-7 flex gap-2 cursor-pointer" key={item.name}>
+            <li
+              className="mb-7 flex gap-2 cursor-pointer items-center p-1"
+              key={item.name}
+            >
               {item.logo}
               <a
                 href={item.link}
