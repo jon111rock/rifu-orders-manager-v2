@@ -83,12 +83,12 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
-      <div className="flex flex-col bg-white h-full p-5 rounded-2xl relative">
+      <div className="flex flex-col md:bg-white h-full p-5 rounded-2xl relative">
         <Pagination
           ordersList={ordersList}
           onChangePage={handleChangePagination}
         />
-        <div className="flex justify-between mb-4">
+        <div className="flex md:flex-row flex-col md:gap-0 gap-3  justify-between mb-4">
           <SearchBar onSearchInput={handleSearchInput} pagedList={pagedList} />
           <Link to="/orders/new">
             <button className="p-2  rounded-md bg-blue text-white">
