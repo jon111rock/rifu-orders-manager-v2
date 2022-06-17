@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { highlight } from "../../helpers/textHelper";
 
 import OrderList from "../../components/OrderList";
+import OrderCardList from "../../components/OrderCardList";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
 
@@ -83,7 +84,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
   return (
     <div className="flex flex-col w-screen h-screen p-7 bg-gray">
       <div className=" text-4xl font-bold mb-5">Orders</div>
-      <div className="flex flex-col md:bg-white h-full p-5 rounded-2xl relative">
+      <div className="flex flex-col md:bg-white h-full p-5 rounded-2xl relative overflow-auto">
         <Pagination
           ordersList={ordersList}
           onChangePage={handleChangePagination}
@@ -98,6 +99,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
         </div>
         <OrderList ordersList={displayList} onOrderClick={handleOrderClick} />
         {/* CardList */}
+        <OrderCardList ordersList={displayList} />
       </div>
     </div>
   );

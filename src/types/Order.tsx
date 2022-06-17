@@ -2,7 +2,7 @@ import User from "./User";
 import Detail from "./ItemDetail";
 
 type Order = {
-  _id?: string;
+  _id: string;
   user: User;
   date: string;
   completed_date: string;
