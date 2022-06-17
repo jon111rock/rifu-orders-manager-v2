@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { highlight } from "../../helpers/textHelper";
+import { MAX_ORDER_PER_PAGE } from "../../constants";
 
 import OrderList from "../../components/OrderList";
 import OrderCardList from "../../components/OrderCardList";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
+import ListPage from "../../components/ListPage";
 
 import Order from "../../types/Order";
 
@@ -16,7 +18,7 @@ type Props = {
 
 const Orders: React.FC<Props> = ({ ordersList }) => {
   const navigate = useNavigate();
-  const [displayList, setDisplayList] = useState<Order[]>();
+  const [displayList, setDisplayList] = useState<Order[]>([]);
   const [pagedList, setPagedList] = useState<Order[]>();
 
   const handleOrderClick = (orderId: string) => {
@@ -75,6 +77,10 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
     [pagedList]
   );
 
+  const handleListPageChange = (pageNumber: number) => {
+    console.log(pageNumber);
+  };
+
   // init displayList
   useEffect(() => {
     if (!ordersList) return;
@@ -98,7 +104,10 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
           </Link>
         </div>
         <OrderList ordersList={displayList} onOrderClick={handleOrderClick} />
-        {/* CardList */}
+        <ListPage
+          onChangePage={handleListPageChange}
+          maxPage={displayList.length / MAX_ORDER_PER_PAGE}
+        />
         <OrderCardList ordersList={displayList} />
       </div>
     </div>
