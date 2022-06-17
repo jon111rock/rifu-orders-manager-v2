@@ -8,7 +8,7 @@ type Props = {
   onOrderClick: (clickedOrderId: string) => void;
 };
 
-const MAX_ORDERS = 8;
+const MAX_ORDERS = 6;
 
 const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
   const [list, setList] = useState<Order[]>();
