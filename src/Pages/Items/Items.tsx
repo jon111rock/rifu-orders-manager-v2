@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getItems } from "../../api/itemApi";
 import Item from "../../types/Item";
 
 type Props = {};
 
 const Items = (props: Props) => {
-  const [items, setItems] = useState<Item[]>();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [items, setItems] = useState<Item[]>();
 
   const handleItemClick = (itemId: string) => {
     navigate(itemId);
@@ -17,12 +18,18 @@ const Items = (props: Props) => {
     navigate("new");
   };
 
-  useEffect(() => {
+  const refreshItemsList = useCallback(() => {
+    if (pathname !== "/items") return;
+
     getItems().then((items) => {
       if (null === items) return;
       setItems(items);
     });
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    refreshItemsList();
+  }, [refreshItemsList]);
 
   return (
     <div className="dashboard">
