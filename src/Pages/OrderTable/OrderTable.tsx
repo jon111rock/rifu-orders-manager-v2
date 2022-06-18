@@ -245,14 +245,6 @@ const OrderTable: React.FC<Props> = ({
               </li>
               <li className="mb-2">
                 <p className="mb-2">訂單類型</p>
-                {/* <input
-                  type="text"
-                  className="order-table-input"
-                  defaultValue={orderType}
-                  onChange={(e) => {
-                    setOrderType(e.target.value);
-                  }}
-                /> */}
                 {orderType ? (
                   <select
                     defaultValue={orderType}

@@ -41,4 +41,12 @@
   .state-ready {
     @apply p-3 rounded-lg bg-lightOrange text-orange;
   }
+
+  .button-blue {
+    @apply p-1.5 rounded-md bg-blue text-white mr-5;
+  }
+
+  .button-border-blue {
+    @apply p-1.5 rounded-md bg-white text-blue border border-solid border-blue;
+  }
 }
