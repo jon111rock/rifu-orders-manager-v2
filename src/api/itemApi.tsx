@@ -20,4 +20,12 @@ const createItem = async (item: { name: string; price: number }) => {
   }
 };
 
-export { getItems, createItem };
+const deleteItem = async (itemId: string) => {
+  try {
+    await axios.delete(`${baseUrl}/${itemId}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getItems, createItem, deleteItem };
