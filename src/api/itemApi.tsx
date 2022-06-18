@@ -1,7 +1,7 @@
 import axios from "axios";
 import Item from "../types/Item";
 
-const baseUrl = "https://rifu-order-manager-api.herokuapp.com/api/item";
+const baseUrl = `${process.env.REACT_APP_URL}/item`;
 
 const getItems = async () => {
   try {
