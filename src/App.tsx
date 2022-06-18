@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -18,13 +18,9 @@ import Order from "./types/Order";
 import { getOrders } from "./api/orderApi";
 
 const App: React.FC = () => {
-  // const navigate = useNavigate();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [ordersList, setOrdersList] = useState<Order[]>();
   const [isOrderTableOpen, setisOrderTableOpen] = useState<boolean>(false);
-
-  const [orderId, setOrderId] = useState<string>("orderId");
 
   const refreshOrderList = () => {
     getOrders().then((res) => {
@@ -34,13 +30,12 @@ const App: React.FC = () => {
     });
   };
 
-  // const handleOrderClick = (clickedOrderId: string) => {};
-
   useEffect(() => {
     refreshOrderList();
   }, []);
 
   useEffect(() => {
+    setIsMenuOpen(false);
     if (isOrderTableOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -56,12 +51,15 @@ const App: React.FC = () => {
           element={
             <div className="flex relative">
               <NavToggle
+                isMenuOpen={isMenuOpen}
                 onChange={(state) => {
+                  console.log(state);
+
                   setIsMenuOpen(state);
                 }}
               />
               <Outlet />
-              <NavBar isMenuOpen={isMenuOpen} />
+              <NavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             </div>
           }
         >
@@ -78,7 +76,7 @@ const App: React.FC = () => {
             }
           >
             <Route
-              path={`:${orderId}`}
+              path={`:orderId`}
               element={
                 <OrderTable
                   ordersList={ordersList}
