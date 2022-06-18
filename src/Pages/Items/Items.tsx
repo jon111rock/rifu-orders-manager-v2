@@ -13,6 +13,10 @@ const Items = (props: Props) => {
     navigate(itemId);
   };
 
+  const handleNewItem = () => {
+    navigate("new");
+  };
+
   useEffect(() => {
     getItems().then((items) => {
       if (null === items) return;
@@ -24,10 +28,21 @@ const Items = (props: Props) => {
     <div className="dashboard">
       <div className="title">Items</div>
       <div className="dashboard-content overflow-auto">
+        <div className="flex justify-end mb-3">
+          <button
+            className="button-blue"
+            onClick={() => {
+              handleNewItem();
+            }}
+          >
+            新增商品
+          </button>
+        </div>
         <ul className="w-full h-full grid lg:grid-cols-3 grid-cols-2 lg:grid-rows-2 grid-rows-3 gap-5">
           {items ? (
             items.map((item) => (
               <li
+                key={item._id}
                 className="p-5 relative md:bg-gray bg-white rounded-lg cursor-pointer hover:active"
                 onClick={() => {
                   handleItemClick(item._id);
