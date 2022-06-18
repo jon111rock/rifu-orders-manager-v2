@@ -23,18 +23,20 @@ const NavBar: React.FC<Props> = ({ isMenuOpen, setIsMenuOpen }) => {
         </div>
         <ul className="w-fit m-auto text-sm">
           {menuItems.map((item) => (
-            <li
-              className={`mb-7 flex gap-2 cursor-pointer items-center p-1 ${
-                pathname === item.link ? "active" : ""
-              }`}
-              key={item.name}
-              onClick={() => {
-                setIsMenuOpen(false);
-              }}
-            >
-              {item.logo}
-              <Link to={item.link}>{item.name}</Link>
-            </li>
+            <Link to={item.link}>
+              <li
+                className={`mb-7 flex gap-2 cursor-pointer items-center p-1 ${
+                  pathname === item.link ? "active" : ""
+                }`}
+                key={item.name}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}
+              >
+                {item.logo}
+                {item.name}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>
