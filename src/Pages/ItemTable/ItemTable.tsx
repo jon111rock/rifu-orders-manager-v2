@@ -1,29 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createItem, deleteItem } from "../../api/itemApi";
-
+import { createItem, deleteItem, updateItem } from "../../api/itemApi";
 import PopupModal from "../../components/PopupModal";
+import Item from "../../types/Item";
 
-type Props = {};
+type Props = {
+  itemList?: Item[];
+  refreshItemsList: () => void;
+};
 
-const ItemTable = (props: Props) => {
+const ItemTable: React.FC<Props> = ({ itemList, refreshItemsList }) => {
   const navigate = useNavigate();
   const { itemId } = useParams();
 
-  const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [name, setName] = useState<string>();
+  const [price, setPrice] = useState<number>();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const handleSave = async () => {
     if (!name || !price) return;
     const tempItem = { name: name, price: price };
-    await createItem(tempItem);
+    if (itemId === "new") {
+      await createItem(tempItem);
+      await refreshItemsList();
+    } else {
+      if (!itemId) return;
+      await updateItem(itemId, tempItem);
+      await refreshItemsList();
+    }
     navigate(-1);
   };
 
   const handleDelete = async () => {
     if (!itemId) return;
     await deleteItem(itemId);
+    await refreshItemsList();
     navigate(-1);
   };
 
@@ -31,12 +42,22 @@ const ItemTable = (props: Props) => {
     navigate(-1);
   };
 
+  // set default
+  useEffect(() => {
+    if (!itemList || itemId === "new") return;
+    const tempItem = itemList.find((item) => item._id === itemId);
+    if (!tempItem) return;
+    setName(tempItem.name);
+    setPrice(tempItem.price);
+  }, [itemId, itemList]);
+
   return (
     <div className="w-screen h-screen fixed top-0 left-0 bg-black-rgba flex justify-center items-center">
       <div className="p-10 bg-white flex flex-col gap-5 rounded-xl">
         <div>
           <span>Name</span>
           <input
+            defaultValue={name}
             className="order-table-input"
             type="text"
             onChange={(e) => {
@@ -47,6 +68,7 @@ const ItemTable = (props: Props) => {
         <div>
           <span>Price</span>
           <input
+            defaultValue={price}
             className="order-table-input"
             type="text"
             onChange={(e) => {

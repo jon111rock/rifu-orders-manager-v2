@@ -28,4 +28,15 @@ const deleteItem = async (itemId: string) => {
   }
 };
 
-export { getItems, createItem, deleteItem };
+const updateItem = async (
+  itemId: string,
+  item: { name: string; price: number }
+) => {
+  try {
+    await axios.patch(`${baseUrl}/${itemId}`, item);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getItems, createItem, deleteItem, updateItem };

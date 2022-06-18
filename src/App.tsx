@@ -16,11 +16,17 @@ import Items from "./pages/Items";
 import ItemTable from "./pages/ItemTable";
 
 import Order from "./types/Order";
+import Item from "./types/Item";
+
 import { getOrders } from "./api/orderApi";
+import { getItems } from "./api/itemApi";
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [ordersList, setOrdersList] = useState<Order[]>();
+  const [itemsList, setItemsList] = useState<Item[]>();
+
   const [isOrderTableOpen, setisOrderTableOpen] = useState<boolean>(false);
 
   const refreshOrderList = () => {
@@ -31,8 +37,17 @@ const App: React.FC = () => {
     });
   };
 
+  const refreshItemsList = () => {
+    getItems().then((res) => {
+      if (!res) return;
+
+      setItemsList(res);
+    });
+  };
+
   useEffect(() => {
     refreshOrderList();
+    refreshItemsList();
   }, []);
 
   useEffect(() => {
@@ -89,12 +104,20 @@ const App: React.FC = () => {
             path="items"
             element={
               <>
-                <Items />
+                <Items itemList={itemsList} />
                 <Outlet />
               </>
             }
           >
-            <Route path=":itemId" element={<ItemTable />} />
+            <Route
+              path=":itemId"
+              element={
+                <ItemTable
+                  itemList={itemsList}
+                  refreshItemsList={refreshItemsList}
+                />
+              }
+            />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/orders" />} />
