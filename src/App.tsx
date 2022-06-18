@@ -53,8 +53,6 @@ const App: React.FC = () => {
               <NavToggle
                 isMenuOpen={isMenuOpen}
                 onChange={(state) => {
-                  console.log(state);
-
                   setIsMenuOpen(state);
                 }}
               />
