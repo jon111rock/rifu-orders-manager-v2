@@ -12,6 +12,7 @@ import NavToggle from "./components/MenuToggle";
 
 import Orders from "./pages/Orders";
 import OrderTable from "./pages/OrderTable";
+import Items from "./pages/Items";
 
 import Order from "./types/Order";
 import { getOrders } from "./api/orderApi";
@@ -87,6 +88,7 @@ const App: React.FC = () => {
               }
             />
           </Route>
+          <Route path="items" element={<Items />} />
         </Route>
         <Route path="*" element={<Navigate to="/orders" />} />
       </Routes>
