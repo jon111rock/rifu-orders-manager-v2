@@ -103,10 +103,17 @@ const OrderTable: React.FC<Props> = ({
       phone_number: phoneNumber,
     };
 
-    const detailsWithoutId = itemDetailList.map((item: Detail) => ({
-      item: item.item.name,
-      count: item.count,
-    }));
+    const detailsWithoutId = itemDetailList.reduce(
+      (list: { item: string; count: number }[], item: Detail) => {
+        if (!item.item) return list;
+        list.push({
+          item: item.item.name,
+          count: item.count,
+        });
+        return list;
+      },
+      []
+    );
 
     const order = {
       date: date,
@@ -183,6 +190,7 @@ const OrderTable: React.FC<Props> = ({
   //compute total
   useEffect(() => {
     const total = itemDetailList.reduce((total, item) => {
+      if (!item.item) return total;
       total += item.count * item.item.price;
       return total;
     }, 0);
@@ -313,19 +321,23 @@ const OrderTable: React.FC<Props> = ({
             {/* 商品列表 */}
             <ul className="w-full">
               {itemDetailList ? (
-                itemDetailList.map((item: Detail, key) => (
-                  <li
-                    className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
-                    key={`${item._id}${key}`}
-                  >
-                    <ItemDetail
-                      item={item}
-                      onDelete={(itemId) => {
-                        handleDeleteItem(itemId);
-                      }}
-                    />
-                  </li>
-                ))
+                itemDetailList.map((item: Detail, key) =>
+                  item.item ? (
+                    <li
+                      className="p-1 border-b border-solid border-lightGray mb-2 last:border-none"
+                      key={`${item._id}${key}`}
+                    >
+                      <ItemDetail
+                        item={item}
+                        onDelete={(itemId) => {
+                          handleDeleteItem(itemId);
+                        }}
+                      />
+                    </li>
+                  ) : (
+                    ""
+                  )
+                )
               ) : (
                 <></>
               )}

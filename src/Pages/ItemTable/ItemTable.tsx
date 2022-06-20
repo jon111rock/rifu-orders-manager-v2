@@ -7,9 +7,14 @@ import Item from "../../types/Item";
 type Props = {
   itemList?: Item[];
   refreshItemsList: () => void;
+  refreshOrderList: () => void;
 };
 
-const ItemTable: React.FC<Props> = ({ itemList, refreshItemsList }) => {
+const ItemTable: React.FC<Props> = ({
+  itemList,
+  refreshItemsList,
+  refreshOrderList,
+}) => {
   const navigate = useNavigate();
   const { itemId } = useParams();
 
@@ -27,6 +32,7 @@ const ItemTable: React.FC<Props> = ({ itemList, refreshItemsList }) => {
       if (!itemId) return;
       await updateItem(itemId, tempItem);
       await refreshItemsList();
+      await refreshOrderList();
     }
     navigate(-1);
   };
@@ -35,6 +41,7 @@ const ItemTable: React.FC<Props> = ({ itemList, refreshItemsList }) => {
     if (!itemId) return;
     await deleteItem(itemId);
     await refreshItemsList();
+    await refreshOrderList();
     navigate(-1);
   };
 
