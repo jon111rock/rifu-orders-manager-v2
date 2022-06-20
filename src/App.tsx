@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
+import { HashRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
 import NavToggle from "./components/MenuToggle";
@@ -60,10 +54,9 @@ const App: React.FC = () => {
   }, [isOrderTableOpen]);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route
-          path=""
           element={
             <div className="flex relative">
               <NavToggle
@@ -121,9 +114,8 @@ const App: React.FC = () => {
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/orders" />} />
-        <Route index element={<Navigate to="/orders" />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
