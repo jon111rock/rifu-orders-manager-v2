@@ -34,7 +34,6 @@ const Items: React.FC<Props> = ({ itemList }) => {
   useEffect(() => {
     if (!itemList) return;
     const filteredList = filterByPageNum(itemList);
-    console.log(filteredList);
 
     setDisplayList(filteredList);
   }, [filterByPageNum, itemList]);
