@@ -43,6 +43,8 @@ const OrderTable: React.FC<Props> = ({
   const [orderType, setOrderType] = useState<string>();
   const [orderState, setOrderState] = useState<string>();
 
+  const [total, setTotal] = useState<number>(0);
+
   const handleAddItemBtnClick = () => {
     setSelectItemOpen((current) => !current);
   };
@@ -177,6 +179,16 @@ const OrderTable: React.FC<Props> = ({
       setItemList(res);
     });
   }, [setIsOrderTableOpen]);
+
+  //compute total
+  useEffect(() => {
+    const total = itemDetailList.reduce((total, item) => {
+      total += item.count * item.item.price;
+      return total;
+    }, 0);
+
+    setTotal(total);
+  }, [itemDetailList]);
 
   return (
     <>
@@ -325,7 +337,7 @@ const OrderTable: React.FC<Props> = ({
           <div className="p-5 border-t border-1 border-lightGray flex items-center justify-between">
             <div>
               <span className="mr-5">總金額</span>
-              <span>$100</span>
+              <span>${total}</span>
             </div>
             <div>
               {orderId !== "new" && !isLoading ? (
