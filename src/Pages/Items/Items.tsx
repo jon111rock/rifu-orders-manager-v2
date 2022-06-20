@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-// import { getItems } from "../../api/itemApi";
 import Item from "../../types/Item";
+import ListPage from "../../components/ListPage";
+import { MAX_ITEM_PER_PAGE } from "../../constants";
 
 type Props = {
   itemList?: Item[];
@@ -9,6 +10,8 @@ type Props = {
 
 const Items: React.FC<Props> = ({ itemList }) => {
   const navigate = useNavigate();
+  const [displayList, setDisplayList] = useState<Item[]>([]);
+  const [currentPageNum, setCurrentPageNum] = useState<number>(1);
 
   const handleItemClick = (itemId: string) => {
     navigate(itemId);
@@ -17,6 +20,24 @@ const Items: React.FC<Props> = ({ itemList }) => {
   const handleNewItem = () => {
     navigate("new");
   };
+
+  const filterByPageNum = useCallback(
+    (list: Item[]) => {
+      return list.slice(
+        (currentPageNum - 1) * MAX_ITEM_PER_PAGE,
+        currentPageNum * MAX_ITEM_PER_PAGE
+      );
+    },
+    [currentPageNum]
+  );
+
+  useEffect(() => {
+    if (!itemList) return;
+    const filteredList = filterByPageNum(itemList);
+    console.log(filteredList);
+
+    setDisplayList(filteredList);
+  }, [filterByPageNum, itemList]);
 
   return (
     <div className="dashboard">
@@ -33,8 +54,8 @@ const Items: React.FC<Props> = ({ itemList }) => {
           </button>
         </div>
         <ul className="w-full h-full grid lg:grid-cols-3 grid-cols-2 lg:grid-rows-2 grid-rows-3 gap-5">
-          {itemList ? (
-            itemList.map((item) => (
+          {displayList ? (
+            displayList.map((item) => (
               <li
                 key={item._id}
                 className="p-5 relative md:bg-gray bg-white rounded-lg cursor-pointer hover:active"
@@ -51,6 +72,12 @@ const Items: React.FC<Props> = ({ itemList }) => {
             <div>Loading</div>
           )}
         </ul>
+        <ListPage
+          maxPage={itemList ? itemList.length / MAX_ITEM_PER_PAGE : 1}
+          onChangePage={(pageNumber) => {
+            setCurrentPageNum(pageNumber);
+          }}
+        />
       </div>
     </div>
   );
