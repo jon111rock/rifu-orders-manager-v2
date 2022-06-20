@@ -2,4 +2,4 @@
 
 v2 引入了 TypeScript 和 Tailwind CSS
 
-[DEMO](#)
+[DEMO](https://jon111rock.github.io/rifu-orders-manager-v2/)
