@@ -165,11 +165,14 @@ const OrderTable: React.FC<Props> = ({
     setCompletedDate(order.completed_date);
     setOrderType(order.type);
     setOrderState(order.state);
-    setItemDetailList(order.details);
+    const temp = JSON.parse(JSON.stringify(order.details));
+    setItemDetailList(temp);
   };
 
   // set default order
   useEffect(() => {
+    // console.log("setup");
+
     if (!ordersList) return;
     const foundOrder = ordersList.find((order) => order._id === orderId);
     if (!foundOrder) return;
@@ -329,6 +332,8 @@ const OrderTable: React.FC<Props> = ({
                     >
                       <ItemDetail
                         item={item}
+                        ItemDetailList={itemDetailList}
+                        setItemDetailList={setItemDetailList}
                         onDelete={(itemId) => {
                           handleDeleteItem(itemId);
                         }}

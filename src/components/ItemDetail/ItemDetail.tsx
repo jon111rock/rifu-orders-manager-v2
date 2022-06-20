@@ -4,16 +4,31 @@ import Detail from "../../types/ItemDetail";
 type Props = {
   item?: Detail;
   onDelete?: (itemId?: string) => void;
+  ItemDetailList: Detail[];
+  setItemDetailList: React.Dispatch<React.SetStateAction<Detail[]>>;
 };
 
-const ItemDetail: React.FC<Props> = ({ item, onDelete }) => {
+const ItemDetail: React.FC<Props> = ({
+  item,
+  onDelete,
+  ItemDetailList,
+  setItemDetailList,
+}) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleCountChange = (e: any) => {
     let count = e.target.value;
     if (!item) return;
     if (count <= 0) count = 1;
-    item.count = count;
+    const tempList = ItemDetailList.map((i) => {
+      if (i._id === item._id) {
+        i.count = count;
+        return i;
+      }
+      return i;
+    });
+    setItemDetailList(tempList); //todo 改變list 內屬性
+    // item.count = count;
   };
 
   return (
