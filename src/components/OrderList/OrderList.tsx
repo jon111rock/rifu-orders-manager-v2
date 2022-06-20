@@ -70,7 +70,11 @@ const OrderList: React.FC<Props> = ({ ordersList, onOrderClick }) => {
                   handleOrderClick(order._id);
                 }}
               >
-                <td className="p-2">{order._id}</td>
+                <td className="p-2">
+                  {order._id
+                    .substring(order._id.length - 5, order._id.length)
+                    .toUpperCase()}
+                </td>
                 <td
                   className="p-2"
                   dangerouslySetInnerHTML={{ __html: order.user.name }}
