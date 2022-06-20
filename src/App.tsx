@@ -121,6 +121,7 @@ const App: React.FC = () => {
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/orders" />} />
+        <Route index element={<Navigate to="/orders" />} />
       </Routes>
     </BrowserRouter>
   );
