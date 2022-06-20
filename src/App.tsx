@@ -108,6 +108,7 @@ const App: React.FC = () => {
                 <ItemTable
                   itemList={itemsList}
                   refreshItemsList={refreshItemsList}
+                  refreshOrderList={refreshOrderList}
                 />
               }
             />
