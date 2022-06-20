@@ -1,11 +1,15 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import menuItems from "./menuItems";
 
 type Props = {
   isMenuOpen: boolean;
+  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NavBar: React.FC<Props> = ({ isMenuOpen }) => {
+const NavBar: React.FC<Props> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const { pathname } = useLocation();
+
   return (
     <>
       <div
@@ -19,17 +23,19 @@ const NavBar: React.FC<Props> = ({ isMenuOpen }) => {
         </div>
         <ul className="w-fit m-auto text-sm">
           {menuItems.map((item) => (
-            <li className="mb-7 flex gap-2 cursor-pointer" key={item.name}>
-              {item.logo}
-              <a
-                href={item.link}
-                onClick={(e) => {
-                  e.preventDefault();
+            <Link key={item.name} to={item.link}>
+              <li
+                className={`mb-7 flex gap-2 cursor-pointer items-center p-1 ${
+                  pathname === item.link ? "active" : ""
+                }`}
+                onClick={() => {
+                  setIsMenuOpen(false);
                 }}
               >
+                {item.logo}
                 {item.name}
-              </a>
-            </li>
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

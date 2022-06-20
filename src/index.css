@@ -7,6 +7,18 @@
     @apply lg:text-[100%] md:text-[85%%] text-[80%];
   }
 
+  .dashboard {
+    @apply flex flex-col w-screen  min-h-screen p-7 bg-gray;
+  }
+
+  .dashboard-content {
+    @apply flex flex-col md:bg-white h-full p-5 rounded-2xl relative md:mb-0 mb-20;
+  }
+
+  .title {
+    @apply text-4xl font-bold mb-5;
+  }
+
   .order-table-input {
     @apply p-1 focus:outline-none w-full border border-solid border-lightGray rounded-md;
   }
@@ -28,5 +40,13 @@
 
   .state-ready {
     @apply p-3 rounded-lg bg-lightOrange text-orange;
+  }
+
+  .button-blue {
+    @apply p-1.5 rounded-md bg-blue text-white mr-5;
+  }
+
+  .button-border-blue {
+    @apply p-1.5 rounded-md bg-white text-blue border border-solid border-blue;
   }
 }

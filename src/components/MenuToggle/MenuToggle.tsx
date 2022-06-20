@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from "react";
 
 type Props = {
+  isMenuOpen: boolean;
   onChange: (state: boolean) => void;
 };
 
-const NavToggle: React.FC<Props> = ({ onChange }) => {
+const NavToggle: React.FC<Props> = ({ onChange, isMenuOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen((currentIsOpen) => !currentIsOpen);
-  };
-
   useEffect(() => {
-    onChange(isOpen);
-  }, [isOpen, onChange]);
+    setIsOpen(isMenuOpen);
+  }, [isMenuOpen]);
 
   return (
     <>
       {isOpen ? (
         <i
           className="bx bx-x bx-lg absolute right-3 top-3 cursor-pointer"
-          onClick={handleClick}
+          onClick={() => {
+            onChange(false);
+            setIsOpen(false);
+          }}
         ></i>
       ) : (
         <i
           className="bx bx-menu bx-lg absolute right-3 top-3 cursor-pointer"
-          onClick={handleClick}
+          onClick={() => {
+            onChange(true);
+            setIsOpen(true);
+          }}
         ></i>
       )}
     </>

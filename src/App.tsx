@@ -12,18 +12,22 @@ import NavToggle from "./components/MenuToggle";
 
 import Orders from "./pages/Orders";
 import OrderTable from "./pages/OrderTable";
+import Items from "./pages/Items";
+import ItemTable from "./pages/ItemTable";
 
 import Order from "./types/Order";
+import Item from "./types/Item";
+
 import { getOrders } from "./api/orderApi";
+import { getItems } from "./api/itemApi";
 
 const App: React.FC = () => {
-  // const navigate = useNavigate();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [ordersList, setOrdersList] = useState<Order[]>();
-  const [isOrderTableOpen, setisOrderTableOpen] = useState<boolean>(false);
 
-  const [orderId, setOrderId] = useState<string>("orderId");
+  const [ordersList, setOrdersList] = useState<Order[]>();
+  const [itemsList, setItemsList] = useState<Item[]>();
+
+  const [isOrderTableOpen, setisOrderTableOpen] = useState<boolean>(false);
 
   const refreshOrderList = () => {
     getOrders().then((res) => {
@@ -33,13 +37,21 @@ const App: React.FC = () => {
     });
   };
 
-  // const handleOrderClick = (clickedOrderId: string) => {};
+  const refreshItemsList = () => {
+    getItems().then((res) => {
+      if (!res) return;
+
+      setItemsList(res);
+    });
+  };
 
   useEffect(() => {
     refreshOrderList();
+    refreshItemsList();
   }, []);
 
   useEffect(() => {
+    setIsMenuOpen(false);
     if (isOrderTableOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -55,12 +67,13 @@ const App: React.FC = () => {
           element={
             <div className="flex relative">
               <NavToggle
+                isMenuOpen={isMenuOpen}
                 onChange={(state) => {
                   setIsMenuOpen(state);
                 }}
               />
               <Outlet />
-              <NavBar isMenuOpen={isMenuOpen} />
+              <NavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             </div>
           }
         >
@@ -77,7 +90,7 @@ const App: React.FC = () => {
             }
           >
             <Route
-              path={`:${orderId}`}
+              path={`:orderId`}
               element={
                 <OrderTable
                   ordersList={ordersList}
@@ -87,8 +100,28 @@ const App: React.FC = () => {
               }
             />
           </Route>
+          <Route
+            path="items"
+            element={
+              <>
+                <Items itemList={itemsList} />
+                <Outlet />
+              </>
+            }
+          >
+            <Route
+              path=":itemId"
+              element={
+                <ItemTable
+                  itemList={itemsList}
+                  refreshItemsList={refreshItemsList}
+                />
+              }
+            />
+          </Route>
         </Route>
         <Route path="*" element={<Navigate to="/orders" />} />
+        <Route index element={<Navigate to="/orders" />} />
       </Routes>
     </BrowserRouter>
   );
