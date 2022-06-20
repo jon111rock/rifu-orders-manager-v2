@@ -3,9 +3,14 @@ import React, { useState, useEffect, useCallback } from "react";
 type Props = {
   onChangePage?: (pageNumber: number) => void;
   maxPage: number;
+  currentPageName?: string;
 };
 
-const ListPage: React.FC<Props> = ({ onChangePage, maxPage }) => {
+const ListPage: React.FC<Props> = ({
+  onChangePage,
+  maxPage,
+  currentPageName,
+}) => {
   const [currentNum, setCurrentNum] = useState<number>(1);
 
   const createNumberAry = () => {
@@ -36,6 +41,10 @@ const ListPage: React.FC<Props> = ({ onChangePage, maxPage }) => {
   useEffect(() => {
     callbackChangePage();
   }, [callbackChangePage]);
+
+  useEffect(() => {
+    setCurrentNum(1);
+  }, [currentPageName]);
 
   return (
     <div className="grid place-items-center p-3">

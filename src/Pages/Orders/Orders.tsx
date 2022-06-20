@@ -142,7 +142,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
           </Link>
         </div>
         <OrderList ordersList={displayList} onOrderClick={handleOrderClick} />
-        <ListPage onChangePage={handleListPageChange} maxPage={maxPage} />
+        <ListPage onChangePage={handleListPageChange} maxPage={maxPage} currentPageName={currentPageName} />
         <OrderCardList ordersList={displayList} />
       </div>
     </div>
