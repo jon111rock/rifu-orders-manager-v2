@@ -123,7 +123,7 @@ const Orders: React.FC<Props> = ({ ordersList }) => {
 
   return (
     <div className="dashboard">
-      <div className="title">Orders</div>
+      <div className="title">訂單</div>
       <div className="dashboard-content">
         <Pagination
           ordersList={ordersList}

@@ -40,7 +40,7 @@ const Items: React.FC<Props> = ({ itemList }) => {
 
   return (
     <div className="dashboard">
-      <div className="title">Items</div>
+      <div className="title">產品</div>
       <div className="dashboard-content overflow-auto">
         <div className="flex justify-end mb-3">
           <button
